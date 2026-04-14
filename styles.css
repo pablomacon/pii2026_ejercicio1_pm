@@ -1,0 +1,381 @@
+:root {
+  --pm-white: #ffffff;
+  --pm-light: #f4f2f5;
+  --pm-gray-1: #d9d7dc;
+  --pm-gray-2: #b2acac;
+  --pm-gray-3: #949494;
+  --pm-gray-4: #827d7d;
+  --pm-black: #000000;
+  --pm-purple: #988db3;
+  --pm-teal: #00a99d;
+  --pm-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --pm-radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, var(--pm-light) 0%, #ebe8ee 100%);
+  color: var(--pm-black);
+  min-height: 100vh;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 28px;
+}
+
+.brand-card,
+.login-card,
+.activity-card,
+.question-card {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(152, 141, 179, 0.18);
+  border-radius: var(--pm-radius);
+  box-shadow: var(--pm-shadow);
+}
+
+.brand-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-card::before,
+.brand-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(152, 141, 179, 0.32);
+  pointer-events: none;
+}
+
+.brand-card::before {
+  width: 260px;
+  height: 260px;
+  top: -80px;
+  left: -60px;
+}
+
+.brand-card::after {
+  width: 220px;
+  height: 220px;
+  bottom: -90px;
+  right: -40px;
+}
+
+.brand-logo {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.brand-title {
+  font-size: clamp(1.7rem, 2vw, 2.3rem);
+  line-height: 1.1;
+  margin: 0 0 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-subtitle {
+  margin: 0;
+  color: var(--pm-gray-4);
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+  max-width: 60ch;
+}
+
+.login-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 240px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(152, 141, 179, 0.14);
+  color: var(--pm-purple);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+
+.login-title {
+  margin: 0 0 10px;
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+
+.login-text {
+  margin: 0 0 22px;
+  color: var(--pm-gray-4);
+  line-height: 1.55;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--pm-teal);
+  color: var(--pm-white);
+  box-shadow: 0 12px 24px rgba(0, 169, 157, 0.25);
+}
+
+.btn-secondary {
+  background: var(--pm-white);
+  color: var(--pm-black);
+  border: 1px solid rgba(130, 125, 125, 0.18);
+}
+
+.login-note {
+  margin-top: 14px;
+  font-size: 0.92rem;
+  color: var(--pm-gray-3);
+}
+
+.activity-section {
+  position: relative;
+}
+
+.activity-card {
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.activity-header h2 {
+  margin: 0 0 8px;
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.activity-header p {
+  margin: 0;
+  color: var(--pm-gray-4);
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
+.badge {
+  background: rgba(0, 169, 157, 0.12);
+  color: var(--pm-teal);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 14px;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.question-card {
+  padding: 22px;
+  border: 1px solid rgba(148, 148, 148, 0.14);
+}
+
+.question-number {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: rgba(152, 141, 179, 0.14);
+  color: var(--pm-purple);
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.question-title {
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+}
+
+.option-list {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--pm-light);
+  color: var(--pm-black);
+  border: 1px solid transparent;
+}
+
+.option input {
+  accent-color: var(--pm-teal);
+}
+
+.activity-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 242, 245, 0.68);
+  backdrop-filter: blur(7px);
+  border-radius: var(--pm-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 3;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.overlay-card {
+  width: min(520px, 100%);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(152, 141, 179, 0.18);
+  border-radius: 24px;
+  box-shadow: var(--pm-shadow);
+  padding: 28px;
+  text-align: center;
+}
+
+.overlay-logo {
+  width: 82px;
+  height: auto;
+  margin-bottom: 14px;
+}
+
+.overlay-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+}
+
+.overlay-card p {
+  margin: 0 0 18px;
+  color: var(--pm-gray-4);
+  line-height: 1.55;
+}
+
+.status-box {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  display: none;
+}
+
+.status-box.info {
+  display: block;
+  background: rgba(152, 141, 179, 0.12);
+  color: var(--pm-purple);
+}
+
+.status-box.success {
+  display: block;
+  background: rgba(0, 169, 157, 0.12);
+  color: var(--pm-teal);
+}
+
+.status-box.error {
+  display: block;
+  background: rgba(195, 59, 59, 0.1);
+  color: #9f2020;
+}
+
+body.authorized .activity-overlay {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 920px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .questions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .brand-card,
+  .login-card,
+  .activity-card,
+  .overlay-card {
+    padding: 20px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .button-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

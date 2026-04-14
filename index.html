@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profe Macón | Actividad</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero">
+        <article class="brand-card">
+          <img
+            src="assets/LogoProfeMacon.jpg"
+            alt="Logo Profe Macón"
+            class="brand-logo"
+          />
+          <h1 class="brand-title">
+            Actividades interactivas de Programación Avanzada
+          </h1>
+          <p class="brand-subtitle">
+            Plataforma de práctica para el curso. El acceso a cada actividad se
+            habilita con una cuenta Google autorizada y luego se registra el
+            intento del estudiante.
+          </p>
+        </article>
+
+        <aside class="login-card">
+          <div class="eyebrow">Acceso seguro</div>
+          <h2 class="login-title">Ingresá para habilitar la actividad</h2>
+          <p class="login-text">
+            La autenticación se realizará con Google Sign-In y luego se validará
+            el acceso en una base externa de autorizados. La paleta de marca se
+            usa solo como guía visual.
+          </p>
+
+          <div class="button-row">
+            <button class="btn btn-primary" id="loginBtn">Ingresar</button>
+            <button class="btn btn-secondary" id="previewBtn">
+              Vista previa bloqueada
+            </button>
+          </div>
+
+          <p class="login-note">
+            Versión inicial de interfaz para desarrollar en Visual Studio Code y
+            publicar luego en GitHub Pages.
+          </p>
+
+          <div class="status-box info" id="loginStatus">
+            Interfaz lista. Falta conectar Google Sign-In y la validación
+            externa.
+          </div>
+        </aside>
+      </section>
+
+      <section class="activity-section">
+        <article class="activity-card">
+          <header class="activity-header">
+            <div>
+              <h2>Reconocimiento de objetos, atributos y clases</h2>
+              <p>
+                Actividad autocorregible inicial. Esta pantalla muestra la
+                estructura visual de la plataforma con la prueba velada hasta
+                que el estudiante se autentique y sea validado.
+              </p>
+            </div>
+            <span class="badge">Actividad bloqueada</span>
+          </header>
+
+          <div class="questions-grid">
+            <section class="question-card">
+              <div class="question-number">1</div>
+              <h3 class="question-title">
+                Clasificá cada elemento como clase u objeto concreto.
+              </h3>
+              <div class="option-list">
+                <label class="option"
+                  ><input type="radio" name="q1" /> Producto</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q1" /> "Refresco cola 500
+                  ml"</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q1" /> Estudiante</label
+                >
+              </div>
+            </section>
+
+            <section class="question-card">
+              <div class="question-number">2</div>
+              <h3 class="question-title">
+                Seleccioná los atributos correctos de la clase Producto.
+              </h3>
+              <div class="option-list">
+                <label class="option"><input type="checkbox" /> nombre</label>
+                <label class="option"><input type="checkbox" /> precio</label>
+                <label class="option"><input type="checkbox" /> vender()</label>
+              </div>
+            </section>
+
+            <section class="question-card">
+              <div class="question-number">3</div>
+              <h3 class="question-title">
+                Elegí la relación que tiene sentido en el caso Biblioteca.
+              </h3>
+              <div class="option-list">
+                <label class="option"
+                  ><input type="radio" name="q3" /> Socio toma prestado
+                  Libro</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q3" /> Libro desayuna con
+                  Biblioteca</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q3" /> Estudiante flota sobre
+                  Libro</label
+                >
+              </div>
+            </section>
+
+            <section class="question-card">
+              <div class="question-number">4</div>
+              <h3 class="question-title">
+                Detectá el intruso en la clase Auto.
+              </h3>
+              <div class="option-list">
+                <label class="option"
+                  ><input type="radio" name="q4" /> matrícula</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q4" /> modelo</label
+                >
+                <label class="option"
+                  ><input type="radio" name="q4" /> cocinar()</label
+                >
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <div class="activity-overlay" id="activityOverlay">
+          <div class="overlay-card">
+            <img
+              src="assets/logo_PM.png"
+              alt="Isotipo Profe Macón"
+              class="overlay-logo"
+            />
+            <h3>Actividad protegida</h3>
+            <p>
+              Para ver y realizar esta prueba debés ingresar con una cuenta
+              Google autorizada. Cuando la validación externa responda
+              correctamente, esta capa desaparecerá y la actividad quedará
+              habilitada.
+            </p>
+            <button class="btn btn-primary" id="overlayLoginBtn">
+              Ingresar
+            </button>
+            <div class="status-box info" id="overlayStatus">
+              Esperando autenticación.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
