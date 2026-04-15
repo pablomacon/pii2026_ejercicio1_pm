@@ -1,10 +1,14 @@
 const AuthService = {
   beginGoogleLogin() {
     return new Promise((resolve) => {
-      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+      if (
+        !window.google ||
+        !window.google.accounts ||
+        !window.google.accounts.id
+      ) {
         resolve({
           ok: false,
-          message: "Google Identity Services no cargó correctamente."
+          message: "Google Identity Services no cargó correctamente.",
         });
         return;
       }
@@ -15,27 +19,24 @@ const AuthService = {
           if (!response || !response.credential) {
             resolve({
               ok: false,
-              message: "No se recibió credencial de Google."
+              message: "No se recibió credencial de Google.",
             });
             return;
           }
 
           resolve({
             ok: true,
-            idToken: response.credential
+            idToken: response.credential,
           });
-        }
+        },
       });
 
       window.google.accounts.id.prompt((notification) => {
         // Si querés, después podemos afinar mensajes según el estado del prompt
-        if (
-          notification.isNotDisplayed &&
-          notification.isNotDisplayed()
-        ) {
+        if (notification.isNotDisplayed && notification.isNotDisplayed()) {
           resolve({
             ok: false,
-            message: "No se pudo mostrar el inicio de sesión de Google."
+            message: "No se pudo mostrar el inicio de sesión de Google.",
           });
         }
       });
@@ -44,23 +45,26 @@ const AuthService = {
 
   async validateAccess({ idToken, slug }) {
     try {
-      const response = await fetch(`${window.APP_CONFIG.apiBaseUrl}/auth/google`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
+      const response = await fetch(
+        `${window.APP_CONFIG.apiBaseUrl}/auth/google`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idToken,
+            slug,
+          }),
         },
-        body: JSON.stringify({
-          idToken,
-          slug
-        })
-      });
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
         return {
           ok: false,
-          message: data.message || "No se pudo validar el acceso."
+          message: data.message || "No se pudo validar el acceso.",
         };
       }
 
@@ -69,8 +73,8 @@ const AuthService = {
       console.error(error);
       return {
         ok: false,
-        message: "Error al conectar con el servidor."
+        message: "Error al conectar con el servidor.",
       };
     }
-  }
+  },
 };

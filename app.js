@@ -226,13 +226,43 @@ function cerrarConfirmacionIncompleta() {
   confirmModal.style.display = "none";
 }
 
-function procesarEnvioActividad() {
+async function procesarEnvioActividad() {
   const resultado = corregirActividad();
   mostrarResultado(resultado);
 
-  // Próximo paso: guardar intento y respuestas en la BD
-  console.log("Estudiante actual:", estudianteActual);
-  console.log("Resultado a guardar:", resultado);
+  if (!estudianteActual || !estudianteActual.id) {
+    showError("No se pudo identificar al estudiante actual.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Guardando...";
+
+  const payload = {
+    estudiante_id: estudianteActual.id,
+    actividad_slug: window.APP_CONFIG.activitySlug,
+    puntaje_obtenido: resultado.puntajeObtenido,
+    puntaje_total: resultado.puntajeTotal,
+    porcentaje: resultado.porcentaje,
+    juicio: resultado.juicio,
+    devolucion: resultado.devolucion,
+    respuestas: resultado.respuestasCorregidas,
+  };
+
+  const guardado = await ResultsService.guardarIntento(payload);
+
+  if (guardado.ok) {
+    resultBox.innerHTML += `
+      <br><strong>Intento guardado:</strong> ${guardado.numero_intento}
+    `;
+    submitBtn.textContent = "Intento enviado";
+  } else {
+    resultBox.innerHTML += `
+      <br><strong>Error al guardar:</strong> ${guardado.message}
+    `;
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Enviar actividad";
+  }
 }
 
 function simulateAuthorizedView() {
