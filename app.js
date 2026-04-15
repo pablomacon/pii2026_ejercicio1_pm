@@ -3,6 +3,7 @@ const overlayLoginBtn = document.getElementById("overlayLoginBtn");
 const previewBtn = document.getElementById("previewBtn");
 const loginStatus = document.getElementById("loginStatus");
 const overlayStatus = document.getElementById("overlayStatus");
+const activityBadge = document.getElementById("activityBadge");
 
 function setStatus(element, type, message) {
   element.className = `status-box ${type}`;
@@ -13,6 +14,9 @@ function unlockActivity(message = "Acceso habilitado.") {
   document.body.classList.add("authorized");
   setStatus(loginStatus, "success", message);
   setStatus(overlayStatus, "success", message);
+
+  activityBadge.textContent = "Actividad habilitada";
+  activityBadge.classList.add("badge-enabled");
 }
 
 function showInfo(message) {
