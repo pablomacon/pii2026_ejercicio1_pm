@@ -138,8 +138,31 @@
               </div>
             </section>
           </div>
-        </article>
+          <div class="activity-actions">
+            <button class="btn btn-primary" id="submitBtn">
+              Enviar actividad
+            </button>
+          </div>
 
+          <div class="result-box" id="resultBox" style="display: none"></div>
+        </article>
+        <div class="confirm-modal" id="confirmModal" style="display: none">
+          <div class="confirm-modal-content">
+            <h3>Actividad incompleta</h3>
+            <p id="confirmMessage">
+              Hay preguntas sin responder. Si enviás ahora, se contarán como
+              incorrectas.
+            </p>
+            <div class="confirm-actions">
+              <button class="btn btn-secondary" id="cancelSubmitBtn">
+                Volver
+              </button>
+              <button class="btn btn-primary" id="confirmSubmitBtn">
+                Enviar de todos modos
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="activity-overlay" id="activityOverlay">
           <div class="overlay-card">
             <img
@@ -167,6 +190,7 @@
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="config.js"></script>
+    <script src="quiz-data.js"></script>
     <script src="auth.js"></script>
     <script src="app.js"></script>
   </body>
