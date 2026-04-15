@@ -22,6 +22,7 @@ function unlockActivity(message = "Acceso habilitado.") {
 
   loginBtn.disabled = true;
   previewBtn.disabled = true;
+  previewBtn.style.display = "none";
   overlayLoginBtn.disabled = true;
 
   loginBtn.textContent = "Ingresado";
@@ -39,7 +40,7 @@ function showError(message) {
 }
 
 async function handleLogin() {
-  showInfo("Verificando acceso...");
+  showInfo("Iniciando sesión con Google...");
 
   const loginResult = await AuthService.beginGoogleLogin();
 
@@ -49,19 +50,17 @@ async function handleLogin() {
   }
 
   const validation = await AuthService.validateAccess({
-    correo: loginResult.correo,
-    slug: window.APP_CONFIG.activitySlug,
+    idToken: loginResult.idToken,
+    slug: window.APP_CONFIG.activitySlug
   });
 
   if (validation.ok) {
     const estudiante = validation.estudiante;
     unlockActivity(
-      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`,
+      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`
     );
   } else {
-    showError(
-      validation.message || "Tu cuenta no está habilitada para esta actividad.",
-    );
+    showError(validation.message || "Tu cuenta no está habilitada para esta actividad.");
   }
 }
 
