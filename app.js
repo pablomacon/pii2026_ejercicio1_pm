@@ -15,8 +15,17 @@ function unlockActivity(message = "Acceso habilitado.") {
   setStatus(loginStatus, "success", message);
   setStatus(overlayStatus, "success", message);
 
-  activityBadge.textContent = "Actividad habilitada";
-  activityBadge.classList.add("badge-enabled");
+  if (activityBadge) {
+    activityBadge.textContent = "Actividad habilitada";
+    activityBadge.classList.add("badge-enabled");
+  }
+
+  loginBtn.disabled = true;
+  previewBtn.disabled = true;
+  overlayLoginBtn.disabled = true;
+
+  loginBtn.textContent = "Ingresado";
+  overlayLoginBtn.textContent = "Ingresado";
 }
 
 function showInfo(message) {
@@ -41,16 +50,18 @@ async function handleLogin() {
 
   const validation = await AuthService.validateAccess({
     correo: loginResult.correo,
-    slug: window.APP_CONFIG.activitySlug
+    slug: window.APP_CONFIG.activitySlug,
   });
 
   if (validation.ok) {
     const estudiante = validation.estudiante;
     unlockActivity(
-      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`
+      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`,
     );
   } else {
-    showError(validation.message || "Tu cuenta no está habilitada para esta actividad.");
+    showError(
+      validation.message || "Tu cuenta no está habilitada para esta actividad.",
+    );
   }
 }
 
