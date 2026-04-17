@@ -5,6 +5,7 @@ const loginStatus = document.getElementById("loginStatus");
 const overlayStatus = document.getElementById("overlayStatus");
 const activityBadge = document.getElementById("activityBadge");
 
+const questionsContainer = document.getElementById("questionsContainer");
 const submitBtn = document.getElementById("submitBtn");
 const resultBox = document.getElementById("resultBox");
 
@@ -14,6 +15,35 @@ const cancelSubmitBtn = document.getElementById("cancelSubmitBtn");
 const confirmSubmitBtn = document.getElementById("confirmSubmitBtn");
 
 let estudianteActual = null;
+let intentoGuardado = false;
+
+function renderQuestions() {
+  questionsContainer.innerHTML = QUIZ_DATA.preguntas
+    .map((pregunta) => {
+      const opcionesHtml = pregunta.opciones
+        .map((opcion) => {
+          const inputType = pregunta.tipo === "checkbox" ? "checkbox" : "radio";
+          return `
+            <label class="option">
+              <input type="${inputType}" name="q${pregunta.numero}" value="${opcion.valor}" />
+              ${opcion.texto}
+            </label>
+          `;
+        })
+        .join("");
+
+      return `
+        <section class="question-card">
+          <div class="question-number">${pregunta.numero}</div>
+          <h3 class="question-title">${pregunta.enunciado}</h3>
+          <div class="option-list">
+            ${opcionesHtml}
+          </div>
+        </section>
+      `;
+    })
+    .join("");
+}
 
 function setStatus(element, type, message) {
   element.className = `status-box ${type}`;
@@ -61,7 +91,7 @@ async function handleLogin() {
 
   const validation = await AuthService.validateAccess({
     idToken: loginResult.idToken,
-    slug: window.APP_CONFIG.activitySlug,
+    slug: window.APP_CONFIG.activitySlug
   });
 
   if (validation.ok) {
@@ -69,41 +99,37 @@ async function handleLogin() {
     estudianteActual = estudiante;
 
     unlockActivity(
-      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`,
+      `Bienvenido/a, ${estudiante.nombre} ${estudiante.apellido}. Acceso autorizado para ${estudiante.titulo}.`
     );
   } else {
-    showError(
-      validation.message || "Tu cuenta no está habilitada para esta actividad.",
-    );
+    showError(validation.message || "Tu cuenta no está habilitada para esta actividad.");
   }
 }
 
 function obtenerRespuestas() {
   return QUIZ_DATA.preguntas.map((pregunta) => {
     if (pregunta.tipo === "radio") {
-      const seleccionada = document.querySelector(
-        `input[name="q${pregunta.numero}"]:checked`,
-      );
+      const seleccionada = document.querySelector(`input[name="q${pregunta.numero}"]:checked`);
       return {
         numero: pregunta.numero,
-        respuesta: seleccionada ? seleccionada.value : null,
+        respuesta: seleccionada ? seleccionada.value : null
       };
     }
 
     if (pregunta.tipo === "checkbox") {
       const marcadas = Array.from(
-        document.querySelectorAll(`input[name="q${pregunta.numero}"]:checked`),
+        document.querySelectorAll(`input[name="q${pregunta.numero}"]:checked`)
       ).map((input) => input.value);
 
       return {
         numero: pregunta.numero,
-        respuesta: marcadas,
+        respuesta: marcadas
       };
     }
 
     return {
       numero: pregunta.numero,
-      respuesta: null,
+      respuesta: null
     };
   });
 }
@@ -111,16 +137,12 @@ function obtenerRespuestas() {
 function obtenerPreguntasSinResponder() {
   return QUIZ_DATA.preguntas.filter((pregunta) => {
     if (pregunta.tipo === "radio") {
-      const seleccionada = document.querySelector(
-        `input[name="q${pregunta.numero}"]:checked`,
-      );
+      const seleccionada = document.querySelector(`input[name="q${pregunta.numero}"]:checked`);
       return !seleccionada;
     }
 
     if (pregunta.tipo === "checkbox") {
-      const marcadas = document.querySelectorAll(
-        `input[name="q${pregunta.numero}"]:checked`,
-      );
+      const marcadas = document.querySelectorAll(`input[name="q${pregunta.numero}"]:checked`);
       return marcadas.length === 0;
     }
 
@@ -133,9 +155,7 @@ function corregirActividad() {
   let puntajeObtenido = 0;
 
   const respuestasCorregidas = QUIZ_DATA.preguntas.map((pregunta) => {
-    const respuestaUsuario = respuestasUsuario.find(
-      (r) => r.numero === pregunta.numero,
-    );
+    const respuestaUsuario = respuestasUsuario.find((r) => r.numero === pregunta.numero);
 
     let esCorrecta = false;
     let respuestaDada = respuestaUsuario?.respuesta ?? null;
@@ -151,9 +171,7 @@ function corregirActividad() {
         .map((op) => op.valor)
         .sort();
 
-      const dadas = Array.isArray(respuestaDada)
-        ? [...respuestaDada].sort()
-        : [];
+      const dadas = Array.isArray(respuestaDada) ? [...respuestaDada].sort() : [];
       esCorrecta = JSON.stringify(correctas) === JSON.stringify(dadas);
       respuestaDada = dadas.join("|");
     }
@@ -167,7 +185,7 @@ function corregirActividad() {
       respuesta_dada: Array.isArray(respuestaUsuario?.respuesta)
         ? respuestaUsuario.respuesta.join("|")
         : respuestaUsuario?.respuesta,
-      es_correcta: esCorrecta,
+      es_correcta: esCorrecta
     };
   });
 
@@ -202,7 +220,7 @@ function corregirActividad() {
     juicio,
     devolucion,
     claseResultado,
-    respuestasCorregidas,
+    respuestasCorregidas
   };
 }
 
@@ -218,7 +236,8 @@ function mostrarResultado(resultado) {
 }
 
 function abrirConfirmacionIncompleta(cantidad) {
-  confirmMessage.textContent = `Hay ${cantidad} pregunta(s) sin responder. Si enviás ahora, se contarán como incorrectas.`;
+  confirmMessage.textContent =
+    `Hay ${cantidad} pregunta(s) sin responder. Si enviás ahora, se contarán como incorrectas.`;
   confirmModal.style.display = "flex";
 }
 
@@ -227,6 +246,8 @@ function cerrarConfirmacionIncompleta() {
 }
 
 async function procesarEnvioActividad() {
+  if (intentoGuardado) return;
+
   const resultado = corregirActividad();
   mostrarResultado(resultado);
 
@@ -246,20 +267,17 @@ async function procesarEnvioActividad() {
     porcentaje: resultado.porcentaje,
     juicio: resultado.juicio,
     devolucion: resultado.devolucion,
-    respuestas: resultado.respuestasCorregidas,
+    respuestas: resultado.respuestasCorregidas
   };
 
   const guardado = await ResultsService.guardarIntento(payload);
 
   if (guardado.ok) {
-    resultBox.innerHTML += `
-      <br><strong>Intento guardado:</strong> ${guardado.numero_intento}
-    `;
+    intentoGuardado = true;
+    resultBox.innerHTML += `<br><strong>Intento guardado:</strong> ${guardado.numero_intento}`;
     submitBtn.textContent = "Intento enviado";
   } else {
-    resultBox.innerHTML += `
-      <br><strong>Error al guardar:</strong> ${guardado.message}
-    `;
+    resultBox.innerHTML += `<br><strong>Error al guardar:</strong> ${guardado.message}`;
     submitBtn.disabled = false;
     submitBtn.textContent = "Enviar actividad";
   }
@@ -271,7 +289,6 @@ function simulateAuthorizedView() {
 
 loginBtn.addEventListener("click", handleLogin);
 overlayLoginBtn.addEventListener("click", handleLogin);
-
 previewBtn.addEventListener("click", simulateAuthorizedView);
 
 submitBtn.addEventListener("click", () => {
@@ -291,3 +308,5 @@ confirmSubmitBtn.addEventListener("click", () => {
   cerrarConfirmacionIncompleta();
   procesarEnvioActividad();
 });
+
+renderQuestions();

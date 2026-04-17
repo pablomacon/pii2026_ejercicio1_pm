@@ -67,99 +67,15 @@
             <span class="badge" id="activityBadge">Actividad bloqueada</span>
           </header>
 
-          <div class="questions-grid">
-            <section class="question-card">
-              <div class="question-number">1</div>
-              <h3 class="question-title">
-                Clasificá cada elemento como clase u objeto concreto.
-              </h3>
-              <div class="option-list">
-                <label class="option">
-                  <input type="radio" name="q1" value="producto" />
-                  Producto
-                </label>
+          <div class="questions-grid" id="questionsContainer"></div>
 
-                <label class="option">
-                  <input type="radio" name="q1" value="refresco" />
-                  "Refresco cola 500 ml"
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="q1" value="estudiante" />
-                  Estudiante
-                </label>
-              </div>
-            </section>
-
-            <section class="question-card">
-              <div class="question-number">2</div>
-              <h3 class="question-title">
-                Seleccioná los atributos correctos de la clase Producto.
-              </h3>
-              <div class="option-list">
-                <label class="option">
-                  <input type="checkbox" name="q2" value="nombre" />
-                  nombre
-                </label>
-
-                <label class="option">
-                  <input type="checkbox" name="q2" value="precio" />
-                  precio
-                </label>
-
-                <label class="option">
-                  <input type="checkbox" name="q2" value="vender" />
-                  vender()
-                </label>
-              </div>
-            </section>
-
-            <section class="question-card">
-              <div class="question-number">3</div>
-              <h3 class="question-title">
-                Elegí la relación que tiene sentido en el caso Biblioteca.
-              </h3>
-              <div class="option-list">
-                <label class="option">
-                  <input type="radio" name="q3" value="prestamo" />
-                  Socio toma prestado Libro
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="q3" value="desayuna" />
-                  Libro desayuna con Biblioteca
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="q3" value="flota" />
-                  Estudiante flota sobre Libro
-                </label>
-              </div>
-            </section>
-
-            <section class="question-card">
-              <div class="question-number">4</div>
-              <h3 class="question-title">
-                Detectá el intruso en la clase Auto.
-              </h3>
-              <div class="option-list">
-                <label class="option">
-                  <input type="radio" name="q4" value="matricula" />
-                  matrícula
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="q4" value="modelo" />
-                  modelo
-                </label>
-
-                <label class="option">
-                  <input type="radio" name="q4" value="cocinar" />
-                  cocinar()
-                </label>
-              </div>
-            </section>
+          <div class="activity-actions">
+            <button class="btn btn-primary" id="submitBtn">
+              Enviar actividad
+            </button>
           </div>
+
+          <div class="result-box" id="resultBox" style="display: none"></div>
           <div class="activity-actions">
             <button class="btn btn-primary" id="submitBtn">
               Enviar actividad
