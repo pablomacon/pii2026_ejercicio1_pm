@@ -283,13 +283,10 @@ async function procesarEnvioActividad() {
   }
 }
 
-function simulateAuthorizedView() {
-  unlockActivity("Vista simulada: interfaz desbloqueada en modo demostración.");
-}
+
 
 loginBtn.addEventListener("click", handleLogin);
 overlayLoginBtn.addEventListener("click", handleLogin);
-previewBtn.addEventListener("click", simulateAuthorizedView);
 
 submitBtn.addEventListener("click", () => {
   const sinResponder = obtenerPreguntasSinResponder();
