@@ -159,10 +159,12 @@ function corregirActividad() {
 
     let esCorrecta = false;
     let respuestaDada = respuestaUsuario?.respuesta ?? null;
+    let respuestaCorrecta = "";
 
     if (pregunta.tipo === "radio") {
       const correcta = pregunta.opciones.find((op) => op.correcta);
       esCorrecta = respuestaDada === correcta.valor;
+      respuestaCorrecta = correcta.valor;
     }
 
     if (pregunta.tipo === "checkbox") {
@@ -174,6 +176,7 @@ function corregirActividad() {
       const dadas = Array.isArray(respuestaDada) ? [...respuestaDada].sort() : [];
       esCorrecta = JSON.stringify(correctas) === JSON.stringify(dadas);
       respuestaDada = dadas.join("|");
+      respuestaCorrecta = correctas.join("|");
     }
 
     if (esCorrecta) {
@@ -182,9 +185,12 @@ function corregirActividad() {
 
     return {
       numero_pregunta: pregunta.numero,
+      tipo_pregunta: pregunta.tipo,
+      enunciado_pregunta: pregunta.enunciado,
       respuesta_dada: Array.isArray(respuestaUsuario?.respuesta)
         ? respuestaUsuario.respuesta.join("|")
-        : respuestaUsuario?.respuesta,
+        : respuestaUsuario?.respuesta ?? "",
+      respuesta_correcta: respuestaCorrecta,
       es_correcta: esCorrecta
     };
   });
