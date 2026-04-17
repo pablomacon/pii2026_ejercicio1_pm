@@ -247,6 +247,9 @@ body {
 .question-card {
   padding: 22px;
   border: 1px solid rgba(148, 148, 148, 0.14);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .question-number {
@@ -284,6 +287,39 @@ body {
 
 .option input {
   accent-color: var(--pm-teal);
+}
+
+.question-feedback {
+  margin-top: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.question-correct {
+  border: 2px solid rgba(0, 169, 157, 0.45);
+  background: rgba(0, 169, 157, 0.05);
+}
+
+.question-correct .question-feedback {
+  color: var(--pm-teal);
+}
+
+.question-incorrect {
+  border: 2px solid rgba(195, 59, 59, 0.35);
+  background: rgba(195, 59, 59, 0.05);
+}
+
+.question-incorrect .question-feedback {
+  color: #9f2020;
+}
+
+.question-incomplete {
+  border: 2px solid rgba(255, 193, 7, 0.35);
+  background: rgba(255, 193, 7, 0.06);
+}
+
+.question-incomplete .question-feedback {
+  color: #9a6b00;
 }
 
 .activity-overlay {
@@ -360,6 +396,7 @@ body.authorized .activity-overlay {
   visibility: hidden;
   pointer-events: none;
 }
+
 .activity-actions {
   margin-top: 24px;
   display: flex;
@@ -389,6 +426,7 @@ body.authorized .activity-overlay {
   background: rgba(195, 59, 59, 0.1);
   border-color: rgba(195, 59, 59, 0.2);
 }
+
 .confirm-modal {
   position: fixed;
   inset: 0;

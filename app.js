@@ -1,6 +1,5 @@
 const loginBtn = document.getElementById("loginBtn");
 const overlayLoginBtn = document.getElementById("overlayLoginBtn");
-const previewBtn = document.getElementById("previewBtn");
 const loginStatus = document.getElementById("loginStatus");
 const overlayStatus = document.getElementById("overlayStatus");
 const activityBadge = document.getElementById("activityBadge");
@@ -33,12 +32,13 @@ function renderQuestions() {
         .join("");
 
       return `
-        <section class="question-card">
+        <section class="question-card" id="question-${pregunta.numero}">
           <div class="question-number">${pregunta.numero}</div>
           <h3 class="question-title">${pregunta.enunciado}</h3>
           <div class="option-list">
             ${opcionesHtml}
           </div>
+          <div class="question-feedback" id="feedback-${pregunta.numero}"></div>
         </section>
       `;
     })
@@ -65,8 +65,6 @@ function unlockActivity(message = "Acceso habilitado.") {
 
   loginBtn.textContent = "Ingresado";
   overlayLoginBtn.textContent = "Ingresado";
-
-  previewBtn.style.display = "none";
 }
 
 function showInfo(message) {
@@ -241,6 +239,46 @@ function mostrarResultado(resultado) {
   `;
 }
 
+function mostrarErroresPorPregunta(resultado) {
+  QUIZ_DATA.preguntas.forEach((pregunta) => {
+    const questionCard = document.getElementById(`question-${pregunta.numero}`);
+    const feedback = document.getElementById(`feedback-${pregunta.numero}`);
+
+    if (!questionCard || !feedback) return;
+
+    questionCard.classList.remove(
+      "question-correct",
+      "question-incorrect",
+      "question-incomplete"
+    );
+    feedback.textContent = "";
+
+    const respuesta = resultado.respuestasCorregidas.find(
+      (r) => r.numero_pregunta === pregunta.numero
+    );
+
+    const sinResponder =
+      !respuesta ||
+      respuesta.respuesta_dada === null ||
+      respuesta.respuesta_dada === undefined ||
+      respuesta.respuesta_dada === "";
+
+    if (sinResponder) {
+      questionCard.classList.add("question-incomplete");
+      feedback.textContent = "Sin responder. Se contó como incorrecta.";
+      return;
+    }
+
+    if (respuesta.es_correcta) {
+      questionCard.classList.add("question-correct");
+      feedback.textContent = "Correcta.";
+    } else {
+      questionCard.classList.add("question-incorrect");
+      feedback.textContent = "Incorrecta.";
+    }
+  });
+}
+
 function abrirConfirmacionIncompleta(cantidad) {
   confirmMessage.textContent =
     `Hay ${cantidad} pregunta(s) sin responder. Si enviás ahora, se contarán como incorrectas.`;
@@ -256,6 +294,7 @@ async function procesarEnvioActividad() {
 
   const resultado = corregirActividad();
   mostrarResultado(resultado);
+  mostrarErroresPorPregunta(resultado);
 
   if (!estudianteActual || !estudianteActual.id) {
     showError("No se pudo identificar al estudiante actual.");
@@ -288,8 +327,6 @@ async function procesarEnvioActividad() {
     submitBtn.textContent = "Enviar actividad";
   }
 }
-
-
 
 loginBtn.addEventListener("click", handleLogin);
 overlayLoginBtn.addEventListener("click", handleLogin);
